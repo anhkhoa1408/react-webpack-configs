@@ -17,13 +17,13 @@ module.exports = {
   },
   output: {
     filename: "vendor.bundle.js",
-    path: path.join(__dirname, "..", "build"),
+    path: path.join(__dirname, "..", "build", "vendor"),
     library: "vendor_lib",
   },
   plugins: [
     new DllPlugin({
       name: "vendor_lib",
-      path: path.join(__dirname, "..", "build", "vendor-manifest.json"),
+      path: path.join(__dirname, "..", "build", "vendor", "vendor-manifest.json"),
     }),
   ],
 };

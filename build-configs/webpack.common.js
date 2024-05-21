@@ -5,10 +5,13 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: path.join(__dirname, "../src/index.tsx"),
+  entry: {
+    main: path.join(__dirname, "../src/index.tsx"),
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     path: path.join(__dirname, "../build"),
+    chunkFilename: "[name].bundle.js",
   },
   module: {
     rules: [
@@ -54,21 +57,35 @@ module.exports = {
       title: "React webpack configs",
       template: path.join(__dirname, "../public/index.html"),
     }),
-    // new CleanWebpackPlugin(),
+
+    // Clean previous build
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ["!vendor/*"],
+    }),
+
+    // Compress and minify css in one file
     new MiniCssExtractPlugin({
       filename: "style.min.css",
       ignoreOrder: true,
     }),
+
+    // Only enable this plugin if project has many dependencies and slow to build
     new DllReferencePlugin({
-      context: path.resolve(__dirname, "..", "build"),
-      manifest: path.resolve(__dirname, "..", "build", "vendor-manifest.json"),
+      context: path.join(__dirname, "..", "build", "vendor"),
+      manifest: path.join(__dirname, "..", "build", "vendor", "vendor-manifest.json"),
     }),
   ],
+  performance: {
+    hints: false,
+  },
   devServer: {
     static: {
+      // Path to static file in dev mode
       directory: path.join(__dirname, "../build"),
     },
     hot: true,
+
+    // Enable this feature in single page application project because when another page is request beside basepath, server will return 404 not found
     historyApiFallback: true,
     port: 3000,
     client: {

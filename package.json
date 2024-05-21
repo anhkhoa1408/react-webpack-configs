@@ -13,11 +13,11 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --config build-configs/webpack.config.js --env env=dev --open --hot",
-    "staging": "webpack --config build-configs/webpack.config.js --env env=dev",
-    "prod": "webpack --config build-configs/webpack.config.js --env env=prod",
+    "build:staging": "webpack --config build-configs/webpack.config.js --env env=dev",
+    "build:prod": "webpack --config build-configs/webpack.config.js --env env=prod",
+    "build:vendor": "webpack --config build-configs/webpack.vendor.config.js",
     "preview:staging": "webpack serve --config build-configs/webpack.config.js --env env=dev",
-    "preview:prod": "webpack serve --config build-configs/webpack.config.js --env env=prod",
-    "build:vendor": "webpack --config build-configs/webpack.vendor.config.js"
+    "preview:prod": "webpack serve --config build-configs/webpack.config.js --env env=prod"
   },
   "eslintConfig": {
     "extends": [
